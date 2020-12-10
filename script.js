@@ -1,4 +1,3 @@
-
 var clicks = 0;
 var bpm = 0;
 var firstClick = new Date();
@@ -7,6 +6,9 @@ var BPMFlag = true;
 var binary = 0;
 var ternary = 0;
 var quarternary = 0;
+var recordedBpms = [];
+var mostClickedBpm = 0;
+var averageBpm = 0;
 
 function clickHandler() {
     clicks++;
@@ -20,13 +22,38 @@ function updateBPM() {
     }
     else {
         lastClick = new Date();
-        bpm = 60000/(lastClick.getTime() - firstClick.getTime());
-        binary = bpm/2;
-        ternary = bpm/3;
-        quarternary = bpm/4;
+        let elapsedTime = lastClick.getTime()-firstClick.getTime();        
+        if (elapsedTime < 60000 * 4 || elapsedTime > 0){
+            bpm = Math.round(60000/elapsedTime);
+            recordBpm();
+            /*
+            binary = Math.round(bpm/2, 0);
+            ternary = Math.round(bpm/3, 0);
+            quarternary = Math.round(bpm/4, 0);
+            */
+
+           binary = Math.round(averageBpm/2, 0);
+           ternary = Math.round(averageBpm/3, 0);
+           quarternary = Math.round(averageBpm/4, 0);
+
+        }
     }
 
     BPMFlag = !BPMFlag;
+}
+
+function recordBpm(){
+    if (recordedBpms[bpm] === undefined){
+        recordedBpms[bpm] = 1;
+    }
+    else {
+        recordedBpms[bpm] = recordedBpms[bpm] + 1;
+    }
+
+    mostClickedBpm = recordedBpms.indexOf(max(recordedBpms));
+
+    averageBpm = bpmAverage(recordedBpms, mostClickedBpm, 5);
+
 }
 
 function clearNumbers(){
@@ -34,20 +61,30 @@ function clearNumbers(){
     bpm = 0;
     firstClick = new Date();
     lastClick = new Date();
-    BPMFlag = true;    
+    BPMFlag = true;
     binary = 0;
     ternary = 0;
     quarternary = 0;
+    recordedBpms = [];
+    mostClickedBpm = 0;
+    averageBpm = 0;
+    document.getElementById("tapButton").focus();
     updateDisplay();
 }
 
 function updateDisplay(){
     document.getElementById("clicksGiven").innerHTML = "Taps: "+ clicks;
-    document.getElementById("bpmText").innerHTML = Math.round(bpm, 0) + " BPM";
-    document.getElementById("binary").innerHTML = Math.round(binary, 0);
-    document.getElementById("ternary").innerHTML = Math.round(ternary, 0);
-    document.getElementById("quarternary").innerHTML = Math.round(quarternary, 0);
+    document.getElementById("bpmText").innerHTML = averageBpm + " BPM";
+    document.getElementById("binary").innerHTML = binary;
+    document.getElementById("ternary").innerHTML = ternary;
+    document.getElementById("quarternary").innerHTML = quarternary;
     checkStyles();
+    /*
+    //DEBUG ONLY    
+    console.log(recordedBpms);
+    console.log(max(recordedBpms));
+    console.log(mostClickedBpm);
+    console.log(averageBpm);*/
 }
 
 function checkStyles(){
@@ -142,3 +179,25 @@ document.addEventListener('keyup', event => {
       clearNumbers()
     }
 })
+
+function max(arguments) {
+    var par = []
+    for (var i = 0; i < arguments.length; i++) {
+        if (!isNaN(arguments[i])) {
+            par.push(arguments[i]);
+        }
+    }
+    return Math.max.apply(Math, par);
+}
+
+function bpmAverage(arr, idx, a){
+    var sum = 0;
+    var totalElements = 0;
+    for(var i = idx - a; i <= idx + a; i++){
+        if(!isNaN(arr[i])) {
+           sum+=i;
+           totalElements++;
+        }
+    }
+    return Math.round(sum/totalElements,0);
+}
