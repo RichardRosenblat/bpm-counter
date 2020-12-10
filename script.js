@@ -2,6 +2,7 @@ var clicks = 0;
 var bpm = 0;
 var firstClick = new Date();
 var lastClick = new Date();
+var elapsedTime = 0; 
 var BPMFlag = true;
 var binary = 0;
 var ternary = 0;
@@ -22,15 +23,10 @@ function updateBPM() {
     }
     else {
         lastClick = new Date();
-        let elapsedTime = lastClick.getTime()-firstClick.getTime();        
-        if (elapsedTime < 60000 * 4 || elapsedTime > 0){
+        elapsedTime = lastClick.getTime()-firstClick.getTime()       
+        if (elapsedTime < 60000 * 4 && elapsedTime > 0){
             bpm = Math.round(60000/elapsedTime);
             recordBpm();
-            /*
-            binary = Math.round(bpm/2, 0);
-            ternary = Math.round(bpm/3, 0);
-            quarternary = Math.round(bpm/4, 0);
-            */
 
            binary = Math.round(averageBpm/2, 0);
            ternary = Math.round(averageBpm/3, 0);
@@ -61,6 +57,7 @@ function clearNumbers(){
     bpm = 0;
     firstClick = new Date();
     lastClick = new Date();
+    elapsedTime = 0; 
     BPMFlag = true;
     binary = 0;
     ternary = 0;
@@ -69,6 +66,7 @@ function clearNumbers(){
     mostClickedBpm = 0;
     averageBpm = 0;
     document.getElementById("tapButton").focus();
+    console.clear();
     updateDisplay();
 }
 
@@ -78,13 +76,30 @@ function updateDisplay(){
     document.getElementById("binary").innerHTML = binary;
     document.getElementById("ternary").innerHTML = ternary;
     document.getElementById("quarternary").innerHTML = quarternary;
-    checkStyles();
+    checkStyles();   
+    
     /*
     //DEBUG ONLY    
-    console.log(recordedBpms);
-    console.log(max(recordedBpms));
-    console.log(mostClickedBpm);
-    console.log(averageBpm);*/
+    console.log("===================================================");
+    console.log(" update display ");
+    console.log(!document.activeElement === document.getElementById("tapButton"))
+    console.log(document.activeElement === document.getElementById("tapButton"))
+    console.log("clicks: " + clicks);
+    console.log("bpm: " + bpm);
+    console.log("firstClick: " + firstClick);
+    console.log("lastClick: " + lastClick);
+    console.log("firstClick.getTime(): " + firstClick.getTime())
+    console.log("lastClick.getTime(): " + lastClick.getTime())
+    console.log("elapsedTime: " + elapsedTime);
+    console.log("BPMFlag: " + BPMFlag);
+    console.log("binary: " + binary);
+    console.log("ternary: " + ternary);
+    console.log("quarternary: " + quarternary);
+    console.log("mostClickedBpm: " + mostClickedBpm);
+    console.log("averageBpm: " + averageBpm);
+    console.log("recordedBpms: " + recordedBpms);
+    console.log("===================================================");
+    */
 }
 
 function checkStyles(){
@@ -172,8 +187,10 @@ function checkStyles(){
 }
 
 document.addEventListener('keyup', event => {
-    if (event.code === 'Space' || event.code === 'Enter') {      
-      clickHandler();
+    if (event.code === 'Space') {      
+        if(!document.activeElement === document.getElementById("tapButton")){
+           clickHandler();
+        }
     }
     else if (event.code === 'Escape'){
       clearNumbers()
@@ -201,3 +218,4 @@ function bpmAverage(arr, idx, a){
     }
     return Math.round(sum/totalElements,0);
 }
+
