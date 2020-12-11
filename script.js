@@ -1,22 +1,25 @@
-var clicks = 0;
-var bpm = 0;
-var firstClick = new Date();
-var lastClick = new Date();
-var elapsedTime = 0; 
-var BPMFlag = true;
-var binary = 0;
-var ternary = 0;
-var quarternary = 0;
-var recordedBpms = [];
-var mostClickedBpm = 0;
-var averageBpm = 0;
+const BPMAVERAGERANGE = 5;
+var clicks;
+var bpm ;
+var firstClick;
+var lastClick;
+var elapsedTime; 
+var BPMFlag ;
+var binary;
+var ternary;
+var quarternary;
+var recordedBpms;
+var mostClickedBpm;
+var averageBpm;
 
+// Add 1 to the clicks and calls updateBPM() Updating the displays after this.
 function clickHandler() {
     clicks++;
     updateBPM();
     updateDisplay();
 }
 
+// Calculates the BPM and the binary, ternary and quarternary values
 function updateBPM() {
     if (BPMFlag) {
         firstClick = new Date();
@@ -38,20 +41,27 @@ function updateBPM() {
     BPMFlag = !BPMFlag;
 }
 
+// Records the bpm in a Array and get's the most clicked bpm and the average Bpm
 function recordBpm(){
     if (recordedBpms[bpm] === undefined){
-        recordedBpms[bpm] = 1;
+        recordedBpms[bpm] = BPMAVERAGERANGE + 1;
     }
     else {
-        recordedBpms[bpm] = recordedBpms[bpm] + 1;
+        recordedBpms[bpm] = recordedBpms[bpm] + BPMAVERAGERANGE + 1;
+    }
+
+    for(i = 0, weight = 1; i < BPMAVERAGERANGE; i++, weight++){
+        recordedBpms[bpm-BPMAVERAGERANGE+i]= weight;
+        recordedBpms[bpm+BPMAVERAGERANGE-i]= weight;
     }
 
     mostClickedBpm = recordedBpms.indexOf(max(recordedBpms));
 
-    averageBpm = bpmAverage(recordedBpms, mostClickedBpm, 5);
+    averageBpm = bpmAverage(recordedBpms, mostClickedBpm, BPMAVERAGERANGE);
 
 }
 
+// Resets the values of variables, clears the console, and calls updateDisplay()
 function clearNumbers(){
     clicks = 0;
     bpm = 0;
@@ -65,17 +75,18 @@ function clearNumbers(){
     recordedBpms = [];
     mostClickedBpm = 0;
     averageBpm = 0;
-    document.getElementById("tapButton").focus();
     console.clear();
     updateDisplay();
 }
 
+// Updates the text in the screen
 function updateDisplay(){
     document.getElementById("clicksGiven").innerHTML = "Taps: "+ clicks;
     document.getElementById("bpmText").innerHTML = averageBpm + " BPM";
     document.getElementById("binary").innerHTML = binary;
     document.getElementById("ternary").innerHTML = ternary;
     document.getElementById("quarternary").innerHTML = quarternary;
+    document.getElementById("tapButton").focus();
     checkStyles();   
     
     /*
@@ -102,9 +113,10 @@ function updateDisplay(){
     */
 }
 
+// Checks if the Beats per minute are in a particular style
 function checkStyles(){
-    // Adiciona success
-    //Binários
+    // Add success from table rows
+    //Binary
     if (binary >= 31 && binary <= 33){
         document.getElementById("Tango").classList.add('table-success');        
     }    
@@ -115,15 +127,15 @@ function checkStyles(){
     else if (binary >= 60 && binary <= 62){
         document.getElementById("Paso_Double").classList.add('table-success');        
     }
-    //Ternários
+    //Ternary
     if (ternary >= 28 && ternary <= 30){
         document.getElementById("Waltz").classList.add('table-success');        
     }    
     else if (ternary >= 58 && ternary <= 60){
-        document.getElementById("Viennese_Waltz").classList.add('table-success');        
+        document.getElementById("Viennese_Waltz").classList.add('table-success');      
 
     }
-    //Quarternários
+    //Quarternary
     if (quarternary >= 25 && quarternary <= 27){
         document.getElementById("Rumba").classList.add('table-success');        
     }    
@@ -144,8 +156,8 @@ function checkStyles(){
 
     }
 
-    //Remove success
-    //Binários
+    //Remove success from table rows
+    //Binary
     if (binary < 31 || binary > 33){
         document.getElementById("Tango").classList.remove('table-success');        
     }    
@@ -156,7 +168,7 @@ function checkStyles(){
     if (binary < 60 || binary > 62){
         document.getElementById("Paso_Double").classList.remove('table-success');        
     }
-    //Ternários
+    //Ternary
     if (ternary < 28 || ternary > 30){
         document.getElementById("Waltz").classList.remove('table-success');        
     }    
@@ -164,7 +176,7 @@ function checkStyles(){
         document.getElementById("Viennese_Waltz").classList.remove('table-success');        
 
     }
-    //Quarternários
+    //Quarternary
     if (quarternary < 25 || quarternary > 27){
         document.getElementById("Rumba").classList.remove('table-success');        
     }    
@@ -186,9 +198,11 @@ function checkStyles(){
     }
 }
 
+// Listen to key press
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {      
-        if(!document.activeElement === document.getElementById("tapButton")){
+        // Prevents user from calling the clickHandler when the tapButton is focused
+        if(!(document.activeElement === document.getElementById("tapButton"))){
            clickHandler();
         }
     }
@@ -197,6 +211,7 @@ document.addEventListener('keyup', event => {
     }
 })
 
+// Returns the biggest number in a array, ignoring Undefined
 function max(arguments) {
     var par = []
     for (var i = 0; i < arguments.length; i++) {
@@ -207,10 +222,11 @@ function max(arguments) {
     return Math.max.apply(Math, par);
 }
 
-function bpmAverage(arr, idx, a){
+// Calculates the average of a given range of numbers in a Array
+function bpmAverage(arr, bpmindex, range){
     var sum = 0;
     var totalElements = 0;
-    for(var i = idx - a; i <= idx + a; i++){
+    for(var i = bpmindex - range; i <= bpmindex + range; i++){
         if(!isNaN(arr[i])) {
            sum+=i;
            totalElements++;
