@@ -1,114 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BPM COUNTER</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BPM COUNTER</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js"></script>
 </head>
+
 <body onload="clearNumbers()">
+  <div class="my-auto">
+
     <div class="row">
-        <h3 id="clicksGiven" class="col-4 text-center my-auto"></h3>
-        <div class="col-4 text-center">
-            <h1>BPM COUNTER</h1>
-            <h5>by Richard Rosenblat</h5>
-        </div>
-        <button type="button" class="btn btn-danger col-4 rounded" onclick="clearNumbers()" ><h3>Reset</h3></button>
+      <div class="col-12 text-center">
+        <h1>BPM COUNTER</h1>
+        <h5>by Richard Rosenblat v.3</h5>
+      </div>
     </div>
+
     <div class="row">
-        <div class="row">
-            <p class="col-12">
-                <h1 id="bpmText" class="text-center"></h1>
-            </p>
+      <div class="col-5"></div>
+      <h3 id="clicksGiven" class="col-2 text-center my-auto"></h3>
+      <button type="button" class="btn btn-danger col-1 rounded" onclick="clearNumbers()">
+        <h5>Reset</h5>
+      </button>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <p class="col-12">
+          <h1 id="bpmText" class="text-center"></h1>
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-8">
+          <div class="row text-center">
+            <h6 class="col-2 border border-dark bg-secondary text-light">Binary</h6>
+            <h6 class="col-2 border border-dark bg-secondary text-light">Ternary</h6>
+            <h6 class="col-2 border border-dark bg-secondary text-light">Quarternary</h6>
+          </div>
+          <div class="row text-center">
+            <h4 id="binary" class="col-2 border border-dark"></h4>
+            <h4 id="ternary" class="col-2 border border-dark"></h4>
+            <h4 id="quarternary" class="col-2 border border-dark"></h4>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="row text-center">
-        <h3 class="col-4 border border-dark">Binary</h3>
-        <h3 class="col-4 border border-dark">Ternary</h3>
-        <h3 class="col-4 border border-dark">Quarternary</h3>
-    </div>
-    <div class="row text-center">
-        <h3 id="binary" class="col-4"></h3>
-        <h3 id="ternary" class="col-4"></h3>
-        <h3 id="quarternary" class="col-4"></h3>
-    </div>
-    <div class="row">
-        <div class="row">
-            <button id="tapButton" type="button" class="btn btn-primary col-12" onclick="clickHandler()"><h2>TAP</h2></button>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <div class="row">
+            <button id="tapButton" type="button" class="btn btn-primary my-3" onclick="clickHandler()">
+              <h2>TAP</h2>
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-    <table class="table table-sm table-bordered table-dark">
-        <thead>            
-            <tr>
-              <th scope="col">Style</th>
-              <th scope="col">BPM</th>
-            </tr>
-            <tr>
+    <div class="container">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <table class="table table-sm table-bordered table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Style</th>
+                <th scope="col">BPM</th>
+              </tr>
+              <tr>
                 <th scope="col">Binary</th>
                 <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr id="Tango" class="">            
-            <td>Tango</td>
-            <td>31-33</td>            
-          </tr>
-          <tr id="Samba" class="">            
-            <td>Samba</td>
-            <td>50-52</td>            
-          </tr>         
-          <tr id="Paso_Double" class="">            
-            <td>Paso Double</td>
-            <td>60-62</td>            
-          </tr>         
-        </tbody>
-        <thead>                        
-            <tr>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="Tango" class="">
+                <td>Tango</td>
+                <td>31-33</td>
+              </tr>
+              <tr id="Samba" class="">
+                <td>Samba</td>
+                <td>50-52</td>
+              </tr>
+              <tr id="Paso_Double" class="">
+                <td>Paso Double</td>
+                <td>60-62</td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
                 <th scope="col">Ternary</th>
                 <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="Waltz" class="">            
-              <td>Waltz </td>
-              <td>28-30</td>            
-            </tr>
-            <tr id="Viennese_Waltz" class="">            
-              <td>Viennese Waltz</td>
-              <td>58-60</td>            
-            </tr>         
-          </tbody>
-        <thead>                        
-            <tr class="">
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="Waltz" class="">
+                <td>Waltz </td>
+                <td>28-30</td>
+              </tr>
+              <tr id="Viennese_Waltz" class="">
+                <td>Viennese Waltz</td>
+                <td>58-60</td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr class="">
                 <th scope="col">Quarternary</th>
                 <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="Rumba" class="">            
-              <td>Rumba </td>
-              <td>25-27</td>            
-            </tr>
-            <tr id="Slow_Fox" class="">            
-              <td>Slow Fox</td>
-              <td>28-30</td>            
-            </tr>         
-            <tr id="Cha_Cha_Cha" class="">            
-              <td>Cha-Cha-Cha</td>
-              <td>30-32</td>            
-            </tr>         
-            <tr id="Jive" class="">            
-              <td>Jive</td>
-              <td>42-44</td>            
-            </tr>         
-            <tr id="QuickStep" class="">            
-              <td>QuickStep</td>
-              <td>50-52</td>            
-            </tr>         
-          </tbody>
-    </table>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="Rumba" class="">
+                <td>Rumba </td>
+                <td>25-27</td>
+              </tr>
+              <tr id="Slow_Fox" class="">
+                <td>Slow Fox</td>
+                <td>28-30</td>
+              </tr>
+              <tr id="Cha_Cha_Cha" class="">
+                <td>Cha-Cha-Cha</td>
+                <td>30-32</td>
+              </tr>
+              <tr id="Jive" class="">
+                <td>Jive</td>
+                <td>42-44</td>
+              </tr>
+              <tr id="QuickStep" class="">
+                <td>QuickStep</td>
+                <td>50-52</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
-</html>
 
+</html>
