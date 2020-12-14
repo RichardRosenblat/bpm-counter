@@ -8,6 +8,8 @@ BPM Counter é uma aplicação html construida para ajudar artistas de Dança es
 A aplicação consiste em uma pagina html que contem contador de batidas por minuto (BPM) e uma tabela que lista os estilos de dança. 
 Conforme o usuario clica o botão "TAP", a aplicação calcula a BPM dos cliques e indica o estilo que se encaixa nela (se nenhum estilo se encaixar, não havera indicação).
 
+A aplicação foi desenvolvida durante o periodo de uma semana, como ajuda emergencial para um professor de dança esportiva.
+
 ## Layout
 Layout sem indicação de estilo:
 
